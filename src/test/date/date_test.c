@@ -1,8 +1,5 @@
-/*
- * date_test.c
- *
- *  Created on: Jul 23, 2014
- *      Author: fha
- */
+#include "types/date_types.h"
 
-
+int main () {
+    return 0;
+}

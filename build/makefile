@@ -1,5 +1,12 @@
 CC=gcc
-CFLAGS=-I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/home/fha/automaIT/c_Test_Project/src -lglib-2.0 -lcheck -lm -lpthread -lrt
 
-all: ../src/types/float_types.o  ../src/internal/float_in_streams.o ../src/internal/float_out_streams.o ../src/internal/float_skill_field.o ../src/internal/float_skill_strings.o ../src/internal/float_type_information.o ../src/internal/float_type_storage_pool.o  ../src/access/float_doubletest_access.o ../src/access/float_floattest_access.o ../src/access/float_skill_state.o ../src/access/float_string_access.o ../src/test/access/access_test.o ../src/test/test.o
-	$(CC)  -o c_Test_Project_new_name  ../src/types/float_types.o  ../src/internal/float_in_streams.o ../src/internal/float_out_streams.o ../src/internal/float_skill_field.o ../src/internal/float_skill_strings.o ../src/internal/float_type_information.o ../src/internal/float_type_storage_pool.o  ../src/access/float_doubletest_access.o ../src/access/float_floattest_access.o ../src/access/float_skill_state.o ../src/access/float_string_access.o ../src/test/access/access_test.o  ../src/test/test.o  $(CFLAGS)
+include ../src/test/date/date_test_makefile.mk
+include ../src/test/float/float_test_makefile.mk
+
+all: date float run
+
+run:
+	./date_test
+	./float_test
+
+.PHONY: all run
