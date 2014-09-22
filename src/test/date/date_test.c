@@ -1,38 +1,35 @@
 #include <math.h>
 #include <check.h>
 #include <stdlib.h>
-#include "access/date_skill_state.h"
-#include "access/date_date_access.h"
-#include "types/date_types.h"
+#include <stdio.h>
+#include <glib.h>
+#include "api/date_api.h"
 
 START_TEST ( test_read_date_instances ) {
-    skill_state *state = skill_state_from_file ( "./resources/date.sf" );
-    date_access *date_access = state->date_access;
+    skill_state state = skill_state_from_file ( "./resources/date.sf" );
 
-    int number_of_instances = date_access_get_number_of_instances ( date_access );
-    ck_assert_msg ( number_of_instances == 2, "Expected exactly 2 instances" );
+    GList *date_instances = get_date_instances ( state );
+    ck_assert_msg ( g_list_length ( date_instances ) == 2, "Expected exactly 2 instances" );
 
-    Date **instances = date_access_get_instances ( date_access );
-
-    ck_assert ( instances[0]->date == 1 );
-    ck_assert ( instances[1]->date == -1 );
+    date first_instance = (date) g_list_nth_data ( date_instances, 0 );
+    date second_instance = (date) g_list_nth_data ( date_instances, 1 );
+    ck_assert ( date_get_date ( first_instance ) == 1 );
+    ck_assert ( date_get_date ( second_instance ) == -1 );
 
 } END_TEST
 
-START_TEST ( test_write_1000_instances ) {
-    skill_state *state = skill_state_empty_skill_state ();
-    date_access *date_access = state->date_access;
+START_TEST ( test_write_10000_instances ) {
+    skill_state state = empty_skill_state ();
 
     int i;
-    for ( i = 0; i < 10; i++ ) {
-        date_access_create_instance ( date_access, i );
+    for ( i = 0; i < 10000; i++ ) {
+        create_date ( state, i );
     }
-    skill_state_write_to_file ( state, "./resources/date_1000_instances.sf" );
+    write_to_file ( state, "./resources/date_10000_instances.sf" );
 
-    state = skill_state_from_file ( "./resources/date_1000_instances.sf" );
-    int number_of_instances = date_access_get_number_of_instances ( state->date_access );
+    state = skill_state_from_file ( "./resources/date_10000_instances.sf" );
 
-    Date **instances = date_access_get_instances ( state->date_access );
+    GList *instances = get_date_instances ( state );
 
 } END_TEST
 
@@ -45,7 +42,7 @@ int main () {
 
     suite_add_tcase ( test_suite, testcase_1);
     tcase_add_test ( testcase_1, test_read_date_instances );
-    tcase_add_test ( testcase_1, test_write_1000_instances );
+ //   tcase_add_test ( testcase_1, test_write_10000_instances );
 
     srunner_run_all ( test_runner, CK_VERBOSE );
     number_of_tests_failed = srunner_ntests_failed ( test_runner );
@@ -54,4 +51,5 @@ int main () {
     printf ( "Number of failed tests: %d\n", number_of_tests_failed );
 
     return number_of_tests_failed == 0 ? 0 : 1;
+    return 0;
 }

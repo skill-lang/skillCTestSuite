@@ -1,22 +1,21 @@
 #include <math.h>
 #include <check.h>
 #include <stdlib.h>
-#include "access/node_skill_state.h"
-#include "access/node_node_access.h"
-#include "types/node_types.h"
+#include <stdio.h>
+#include <glib.h>
+#include "api/node_api.h"
 
 START_TEST ( read_node_instances ) {
     printf ( "started test.\n" );
     mark_point ();
-    skill_state *state = skill_state_from_file ( "./resources/node.sf" );
+    skill_state state = skill_state_from_file ( "./resources/node.sf" );
 
-    node_access *node_access = state->node_access;
+    GList *nodes = get_node_instances ( state );
+    node first = (node) g_list_nth ( nodes, 0 );
+    node second = (node) g_list_nth ( nodes, 1 );
 
-    int number_of_instances = node_access_get_number_of_instances ( node_access );
-    Node** nodes = node_access_get_instances ( node_access );
-
-    ck_assert ( nodes[0]->node == nodes[1] );
-    ck_assert ( nodes[1]->node == nodes[0] );
+    ck_assert ( node_get_node ( first ) == second );
+    ck_assert ( node_get_node ( second ) == first );
 } END_TEST
 
 int main () {

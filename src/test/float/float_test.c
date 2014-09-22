@@ -1,46 +1,37 @@
 #include <math.h>
 #include <check.h>
 #include <stdlib.h>
-#include "access/float_skill_state.h"
-#include "access/float_floattest_access.h"
-#include "access/float_doubletest_access.h"
-#include "types/float_types.h"
+#include <stdio.h>
+#include <glib.h>
+#include "api/float_api.h"
 
 START_TEST ( test_read_write_float_instances ) {
-    printf ( "started test.\n" );
-    mark_point ();
     const float FLOAT_EPSILON = 0.0001;
-    skill_state *state = skill_state_empty_skill_state ();
+    skill_state state = empty_skill_state ();
 
-    floattest_access *float_access = state->floattest_access;
-    doubletest_access *double_access = state->doubletest_access;
+    create_floattest ( state, -0.1, 0.0, 0.1, 1.0, 99.99 );
+    create_floattest ( state, 2.0, 2.0, 2.0, 2.0, 2.0 );
 
-    floattest_access_create_instance ( float_access, -0.1, 0.0, 0.1, 1.0, 99.99 );
-    floattest_access_create_instance ( float_access, 2.0, 2.0, 2.0, 2.0, 2.0 );
-
-    skill_state_write_to_file ( state, "./resources/floats.sf" );
+    write_to_file ( state, "./resources/floats.sf" );
 
     state = skill_state_from_file ( "./resources/floats.sf" );
-    int number_of_float_instances = floattest_access_get_number_of_instances ( state->floattest_access );
-    ck_assert_msg ( number_of_float_instances == 2, "Expected exactly 2 instances" );
+    GList *floattest_instances = get_floattest_instances ( state );
+    ck_assert_msg ( g_list_length ( floattest_instances ) == 2, "Expected exactly 2 instances" );
 
-    FloatTest **instances = floattest_access_get_instances ( state->floattest_access );
+    floattest first_instance = g_list_nth_data ( floattest_instances, 0 );
+    floattest second_instance = g_list_nth_data ( floattest_instances, 1 );
 
-    FloatTest *first_instance = instances[0];
-    FloatTest *second_instance = instances[1];
+    ck_assert ( fabs ( floattest_get_zero ( first_instance ) - ( -0.1) ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_minuszero ( first_instance ) - 0.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_two ( first_instance ) - 0.1 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_pi ( first_instance ) - 1.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_nan ( first_instance ) - 99.99 ) < FLOAT_EPSILON );
 
-    ck_assert ( fabs ( first_instance->zero - ( -0.1) ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( first_instance->minusZero - 0.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( first_instance->two - 0.1 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( first_instance->pi - 1.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( first_instance->NaN - 99.99 ) < FLOAT_EPSILON );
-
-
-    ck_assert ( fabs ( second_instance->zero - 2.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( second_instance->minusZero - 2.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( second_instance->two - 2.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( second_instance->pi - 2.0 ) < FLOAT_EPSILON );
-    ck_assert ( fabs ( second_instance->NaN - 2.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_zero ( second_instance ) - 2.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_minuszero ( second_instance ) - 2.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_two ( second_instance ) - 2.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_pi ( second_instance ) - 2.0 ) < FLOAT_EPSILON );
+    ck_assert ( fabs ( floattest_get_nan ( second_instance ) - 2.0 ) < FLOAT_EPSILON );
 
 } END_TEST
 
