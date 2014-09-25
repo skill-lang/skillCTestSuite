@@ -1,24 +1,31 @@
 #include <math.h>
-#include <check.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
+#include "../../minunit.h"
 #include "api/date_api.h"
 
-START_TEST ( test_read_date_instances ) {
+int tests_run = 0;
+
+// This reads the two date instances from the example and checks their values '1' and '-1'.
+char *test_read_date_instances () {
     skill_state state = skill_state_from_file ( "./resources/date.sf" );
 
     GList *date_instances = get_date_instances ( state );
-    ck_assert_msg ( g_list_length ( date_instances ) == 2, "Expected exactly 2 instances" );
+    mu_assert ( "TEST FAILED: date_test - read_date_instances: Expected exactly 2 instances.\n", g_list_length ( date_instances ) == 2 );
 
     date first_instance = (date) g_list_nth_data ( date_instances, 0 );
     date second_instance = (date) g_list_nth_data ( date_instances, 1 );
-    ck_assert ( date_get_date ( first_instance ) == 1 );
-    ck_assert ( date_get_date ( second_instance ) == -1 );
 
-} END_TEST
+    mu_assert ( "TEST FAILED: date_test - read_date_instances: date value of the first instance was not 1.\n", date_get_date ( first_instance ) == 1 );
+    mu_assert ( "TEST FAILED: date_test - read_date_instances: date value of the first instance was not -1.\n", date_get_date ( second_instance ) == -1 );
 
-START_TEST ( test_write_10000_instances ) {
+    g_list_free ( date_instances );
+    delete_skill_state ( state );
+    return 0;
+}
+
+char *test_write_10000_instances () {
     skill_state state = empty_skill_state ();
 
     int i;
@@ -30,26 +37,26 @@ START_TEST ( test_write_10000_instances ) {
     state = skill_state_from_file ( "./resources/date_10000_instances.sf" );
 
     GList *instances = get_date_instances ( state );
+    mu_assert ( "TEST FAILED: date_test - write_10000_instances: Expected exactly 10000 date instances.\n", g_list_length ( instances ) == 10000 );
 
-} END_TEST
+    g_list_free ( instances );
+    delete_skill_state ( state );
+    return 0;
+}
+
+static char *all_tests () {
+     mu_run_test ( test_read_date_instances );
+     mu_run_test ( test_write_10000_instances );
+     return 0;
+}
 
 int main () {
-
-    Suite *test_suite = suite_create ( "test suite" );
-    TCase *testcase_1 = tcase_create ( "read the instances from the example file and check their values (1 and -1)\n" );
-    SRunner *test_runner = srunner_create ( test_suite );
-    int number_of_tests_failed;
-
-    suite_add_tcase ( test_suite, testcase_1);
-    tcase_add_test ( testcase_1, test_read_date_instances );
- //   tcase_add_test ( testcase_1, test_write_10000_instances );
-
-    srunner_run_all ( test_runner, CK_VERBOSE );
-    number_of_tests_failed = srunner_ntests_failed ( test_runner );
-    srunner_free ( test_runner );
-
-    printf ( "Number of failed tests: %d\n", number_of_tests_failed );
-
-    return number_of_tests_failed == 0 ? 0 : 1;
-    return 0;
+    char *result = all_tests ();
+    if ( result != 0 ) {
+        printf( "%s\n", result );
+        return 1;
+    } else {
+        printf ( "date_test: all tests passed.\n" );
+        return 0;
+    }
 }
