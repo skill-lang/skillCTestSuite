@@ -9,7 +9,7 @@ int tests_run = 0;
 
 // This tests reading and writing float values.
 char *read_write_float_instances () {
-    const float FLOAT_EPSILON = 0.0001;
+    const float FLOAT_EPSILON = 0.000001;
     skill_state state = empty_skill_state ();
 
     create_floattest ( state, 0.0, 1 / -INFINITY, 2.0, 3.1415926536, NAN );

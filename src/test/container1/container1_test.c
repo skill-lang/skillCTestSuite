@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <glib.h>
 #include <stdbool.h>
 #include "../../minunit.h"
@@ -31,8 +32,10 @@ char *write_read_instances () {
 
 
     GArray *varArr = g_array_new ( true, true, sizeof (char*) );
-    g_array_append_val ( varArr, "val1" );
-    g_array_append_val ( varArr, "val2" );
+    char *val1 = "val1";
+    char *val2 = "val2";
+    g_array_append_val ( varArr, val1 );
+    g_array_append_val ( varArr, val2 );
 
     GList *list = 0;
     bool b1 = true;
@@ -76,33 +79,43 @@ char *write_read_instances () {
     GList *instances = get_container_instances ( state );
     instance = (container) g_list_nth_data ( instances, 0 );
 
-    mu_assert ( "TEST FAILED: container_test - read_write_instances: Expected exactly 1 container instance.\n", g_list_length ( instances ) == 1 );
+    mu_assert ( "TEST FAILED: container1_test - read_write_instances: Expected exactly 1 container instance.\n", g_list_length ( instances ) == 1 );
 
     constArr = container_get_arr ( instance );
-    mu_assert ( "", constArr->len == 3 );
-    mu_assert ( "", g_array_index ( constArr, int64_t, 0 ) == 1 );
-    mu_assert ( "", g_array_index ( constArr, int64_t, 1 ) == -1 );
-    mu_assert ( "", g_array_index ( constArr, int64_t, 2 ) == 2 );
+    mu_assert ( "TEST FAILED: container1_test - Expected arr->len to be 3.\n", constArr->len == 3 );
+    mu_assert ( "TEST FAILED: container1_test - Expected first element of arr to be 1.\n", g_array_index ( constArr, int64_t, 0 ) == 1 );
+    mu_assert ( "TEST FAILED: container1_test - Expected second element of arr to be -1.\n", g_array_index ( constArr, int64_t, 1 ) == -1 );
+    mu_assert ( "TEST FAILED: container1_test - Expected third element of arr to be 2.\n", g_array_index ( constArr, int64_t, 2 ) == 2 );
 
     varArr = container_get_varr ( instance );
-    mu_assert ( "", varArr->len == 2 );
-    mu_assert ( "", strcmp ( g_array_index ( constArr, char*, 0 ), "val1" ) == 0 );
-    mu_assert ( "", strcmp ( g_array_index ( constArr, char*, 1 ), "val2" ) == 0 );
+    mu_assert ( "TEST FAILED: container1_test - varr to have exactly two elements.\n", varArr->len == 2 );
+    mu_assert ( "TEST FAILED: container1_test - Expected first element of varr to be 'val1'.\n", strcmp ( g_array_index ( varArr, char*, 0 ), "val1" ) == 0 );
+    mu_assert ( "TEST FAILED: container1_test - Expected second element of varr to be 'val2'.\n", strcmp ( g_array_index ( varArr, char*, 1 ), "val2" ) == 0 );
 
     list = container_get_l ( instance );
-    mu_assert ( "", g_list_length ( list ) == 3 );
-    mu_assert ( "", (bool) g_list_nth_data ( list, 0 ) == true );
-    mu_assert ( "", (bool) g_list_nth_data ( list, 1 ) == true );
-    mu_assert ( "", (bool) g_list_nth_data ( list, 2 ) == false );
+    mu_assert ( "TEST FAILED: container1_test - Expected list 'l' to have exactly 3 elements.\n", g_list_length ( list ) == 3 );
+    mu_assert ( "TEST FAILED: container1_test - Expected first element of list 'l' to be true.\n", *( (bool*) g_list_nth_data ( list, 0 ) ) == true );
+    mu_assert ( "TEST FAILED: container1_test - Expected second element of list 'l' to be true.\n", *( (bool*) g_list_nth_data ( list, 1 ) ) == true );
+    mu_assert ( "TEST FAILED: container1_test - Expected third element of list 'l' to be false.\n", *( (bool*) g_list_nth_data ( list, 2 ) ) == false );
 
     set = container_get_s ( instance );
-    mu_assert ( "", g_hash_table_size ( set ) == 3 );
-    mu_assert ( "", g_hash_table_contains ( set, &k1 ) );
-    mu_assert ( "", g_hash_table_contains ( set, &k2 ) );
-    mu_assert ( "", g_hash_table_contains ( set, &k3 ) );
+    mu_assert ( "TEST FAILED: container1_test - Expected the set 's' to have exactly 3 elements.\n", g_hash_table_size ( set ) == 3 );
+    mu_assert ( "TEST FAILED: container1_test - Expected the set 's' to contain the number '1'.\n", g_hash_table_contains ( set, &k1 ) );
+    mu_assert ( "TEST FAILED: container1_test - Expected the set 's' to contain the number '2'.\n", g_hash_table_contains ( set, &k2 ) );
+    mu_assert ( "TEST FAILED: container1_test - Expected the set 's' to contain the number '3'.\n", g_hash_table_contains ( set, &k3 ) );
 
     map = container_get_f ( instance );
-    // TODO map-tests
+    mu_assert ( "TEST FAILED: container1_test - Expected the map 'f' to have exactly 2 elements.\n", g_hash_table_size ( map ) == 2 );
+    test1_table = (GHashTable*) g_hash_table_lookup ( map, "test1" );
+    mu_assert ( "TEST FAILED: Expected an entry for key 'test1' in the map 'f'.\n", test1_table != 0 );
+    test2_table = (GHashTable*) g_hash_table_lookup ( map, "test2" );
+    mu_assert ( "TEST FAILED: Expected an entry for key 'test2' in the map 'f'.\n", test2_table != 0 );
+    mu_assert ( "TEST FAILED: container1_test - Expected the first nested map of map 'f' to have exactly 2 elements.\n", g_hash_table_size ( test1_table ) == 2 );
+    mu_assert ( "TEST FAILED: container1_test - Expected the second nested map of map 'f' to have exactly 1 element.\n", g_hash_table_size ( test2_table ) == 1 );
+
+    mu_assert ( "TEST FAILED: Expected the first nested map to contain 'true' for the key '1'.\n", *( (bool*) g_hash_table_lookup ( test1_table, &k1 ) ) == true );
+    mu_assert ( "TEST FAILED: Expected the first nested map to contain 'false' for the key '-1'.\n", *( (bool*) g_hash_table_lookup ( test1_table, &k2 ) ) == false );
+    mu_assert ( "TEST FAILED: Expected the second nested map to contain 'true' for the key '2'.\n", *( (bool*) g_hash_table_lookup ( test2_table, &k3 ) ) == true );
 
     g_list_free ( instances );
     delete_skill_state ( state );
