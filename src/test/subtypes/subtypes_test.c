@@ -56,6 +56,8 @@ char *read_write_instances () {
         mu_assert ( "TEST FAILED: subtypes_test - read_write_instances: Expected the a-field of all instances to point to the instance itself.\n", a_get_a ( _a ) == _a );
     }
 
+    // TODO other tests
+
     g_list_free ( a_instances );
     g_list_free ( b_instances );
     g_list_free ( c_instances );

@@ -88,7 +88,7 @@ char *write_read_instances () {
     mu_assert ( "TEST FAILED: container1_test - Expected third element of arr to be 2.\n", g_array_index ( constArr, int64_t, 2 ) == 2 );
 
     varArr = container_get_varr ( instance );
-    mu_assert ( "TEST FAILED: container1_test - varr to have exactly two elements.\n", varArr->len == 2 );
+    mu_assert ( "TEST FAILED: container1_test - Expected varr to have exactly two elements.\n", varArr->len == 2 );
     mu_assert ( "TEST FAILED: container1_test - Expected first element of varr to be 'val1'.\n", strcmp ( g_array_index ( varArr, char*, 0 ), "val1" ) == 0 );
     mu_assert ( "TEST FAILED: container1_test - Expected second element of varr to be 'val2'.\n", strcmp ( g_array_index ( varArr, char*, 1 ), "val2" ) == 0 );
 
