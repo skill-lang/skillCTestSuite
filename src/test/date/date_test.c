@@ -25,19 +25,19 @@ char *test_read_date_instances () {
     return 0;
 }
 
-char *test_write_10000_instances () {
+char *test_write_1000000_instances () {
     skill_state state = empty_skill_state ();
 
     int i;
-    for ( i = 0; i < 10000; i++ ) {
+    for ( i = 0; i < 1000000; i++ ) {
         create_date ( state, i );
     }
-    write_to_file ( state, "./resources/date_10000_instances.sf" );
+    write_to_file ( state, "./resources/date_1000000_instances.sf" );
 
-    state = skill_state_from_file ( "./resources/date_10000_instances.sf" );
+    state = skill_state_from_file ( "./resources/date_1000000_instances.sf" );
 
     GList *instances = get_date_instances ( state );
-    mu_assert ( "TEST FAILED: date_test - write_10000_instances: Expected exactly 10000 date instances.\n", g_list_length ( instances ) == 10000 );
+    mu_assert ( "TEST FAILED: date_test - write_1000000_instances: Expected exactly 1000000 date instances.\n", g_list_length ( instances ) == 1000000 );
 
     g_list_free ( instances );
     delete_skill_state ( state );
@@ -46,7 +46,7 @@ char *test_write_10000_instances () {
 
 static char *all_tests () {
      mu_run_test ( test_read_date_instances );
-     mu_run_test ( test_write_10000_instances );
+     mu_run_test ( test_write_1000000_instances );
      return 0;
 }
 

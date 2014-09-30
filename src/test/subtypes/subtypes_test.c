@@ -51,40 +51,40 @@ char *read_write_instances () {
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type d.\n", g_list_length ( d_instances ) == 1 );
 
     _d = (d) g_list_nth_data ( d_instances, 0 );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_d) to return 'true'.\n", instanceof_d ( state, (skill_type) _d ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_d) to return 'true'.\n", instanceof_a ( state, (skill_type) _d ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_d) to return 'true'.\n", instanceof_b ( state, (skill_type) _d ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_d) to return 'false'.\n", instanceof_c ( state, (skill_type) _d ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_d) to return 'true'.\n", instanceof_d ( (skill_type) _d ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_d) to return 'true'.\n", instanceof_a ( (skill_type) _d ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_d) to return 'true'.\n", instanceof_b ( (skill_type) _d ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_d) to return 'false'.\n", instanceof_c ( (skill_type) _d ) == false );
 
     _c = (c) g_list_nth_data ( c_instances, 0 );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_c) to return 'true'.\n", instanceof_c ( state, (skill_type) _c ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_c) to return 'true'.\n", instanceof_a ( state, (skill_type) _c ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_c) to return 'false'.\n", instanceof_b ( state, (skill_type) _c ) == false );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_c) to return 'false'.\n", instanceof_d ( state, (skill_type) _c ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_c) to return 'true'.\n", instanceof_c ( (skill_type) _c ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_c) to return 'true'.\n", instanceof_a ( (skill_type) _c ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_c) to return 'false'.\n", instanceof_b ( (skill_type) _c ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_c) to return 'false'.\n", instanceof_d ( (skill_type) _c ) == false );
 
-    if ( instanceof_b ( state, (skill_type) g_list_nth_data ( b_instances, 0 ) ) ) {
+    if ( instanceof_b ( (skill_type) g_list_nth_data ( b_instances, 0 ) ) ) {
         _b = (b) g_list_nth_data ( b_instances, 0 );
     } else {
         _b = (b) g_list_nth_data ( b_instances, 1 );
     }
 
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_b) to return 'true'.\n", instanceof_b ( state, (skill_type) _b ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_b) to return 'true'.\n", instanceof_a ( state, (skill_type) _b ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_b) to return 'false'.\n", instanceof_c ( state, (skill_type) _b ) == false );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_b) to return 'false'.\n", instanceof_d ( state, (skill_type) _b ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_b) to return 'true'.\n", instanceof_b ( (skill_type) _b ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_b) to return 'true'.\n", instanceof_a ( (skill_type) _b ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_b) to return 'false'.\n", instanceof_c ( (skill_type) _b ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_b) to return 'false'.\n", instanceof_d ( (skill_type) _b ) == false );
 
     GList *iterator;
     skill_type t;
     for ( iterator = a_instances; iterator; iterator = iterator->next ) {
         t = (skill_type) iterator->data;
-        if ( !instanceof_b ( state, t ) && !instanceof_d ( state, t ) && !instanceof_c ( state, t ) ) {
+        if ( !instanceof_b ( t ) && !instanceof_d ( t ) && !instanceof_c ( t ) ) {
             _a = (a) t;
         }
     }
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_a) to return 'true'.\n", instanceof_a ( state, (skill_type) _a ) == true );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_a) to return 'false'.\n", instanceof_b ( state, (skill_type) _a ) == false );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_a) to return 'false'.\n", instanceof_c ( state, (skill_type) _a ) == false );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_a) to return 'false'.\n", instanceof_d ( state, (skill_type) _a ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_a (_a) to return 'true'.\n", instanceof_a ( (skill_type) _a ) == true );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_b (_a) to return 'false'.\n", instanceof_b ( (skill_type) _a ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_a) to return 'false'.\n", instanceof_c ( (skill_type) _a ) == false );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_a) to return 'false'.\n", instanceof_d ( (skill_type) _a ) == false );
 
     mu_assert ( "TEST FAILED: subtypes_test - Expected _a->a to point to _a.\n", a_get_a ( _a ) == _a );
     mu_assert ( "TEST FAILED: subtypes_test - Expected _b->a to point to _a.\n", a_get_a ( (a) _b ) == _a );
