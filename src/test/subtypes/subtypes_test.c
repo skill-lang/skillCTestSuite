@@ -86,15 +86,18 @@ char *read_write_instances () {
     mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_c (_a) to return 'false'.\n", instanceof_c ( state, (skill_type) _a ) == false );
     mu_assert ( "TEST FAILED: subtypes_test - Expected instanceof_d (_a) to return 'false'.\n", instanceof_d ( state, (skill_type) _a ) == false );
 
-    // TODO different getter/setter for different sub-types
-
     mu_assert ( "TEST FAILED: subtypes_test - Expected _a->a to point to _a.\n", a_get_a ( _a ) == _a );
     mu_assert ( "TEST FAILED: subtypes_test - Expected _b->a to point to _a.\n", a_get_a ( (a) _b ) == _a );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _b->a to point to _a.\n", b_get_a ( _b ) == _a );
     mu_assert ( "TEST FAILED: subtypes_test - Expected _c->a to point to _a.\n", a_get_a ( (a) _c ) == _a );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _c->a to point to _a.\n", c_get_a ( _c ) == _a );
     mu_assert ( "TEST FAILED: subtypes_test - Expected _d->a to point to _a.\n", a_get_a ( (a) _d ) == _a );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->a to point to _a.\n", b_get_a ( (b) _d ) == _a );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->a to point to _a.\n", d_get_a ( _d ) == _a );
 
     mu_assert ( "TEST FAILED: subtypes_test - Expected _b->b to point to _b.\n", b_get_b ( _b ) == _b );
     mu_assert ( "TEST FAILED: subtypes_test - Expected _d->b to point to _b.\n", b_get_b ( (b) _d ) == _b );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->b to point to _b.\n", d_get_b ( _d ) == _b );
 
     mu_assert ( "TEST FAILED: subtypes_test - Expected _c->c to point to _c.\n", c_get_c ( _c ) == _c );
 
