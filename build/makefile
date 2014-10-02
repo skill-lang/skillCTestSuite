@@ -8,8 +8,9 @@ include ../src/test/node/node_test_makefile.mk
 include ../src/test/subtypes/subtypes_test_makefile.mk
 include ../src/test/container1/container1_test_makefile.mk
 include ../src/test/container2/container2_test_makefile.mk
+include ../src/test/appending/appending_test_makefile.mk
 
-all: date basicTypes float node container1 container2 subtypes run
+all: date basicTypes float node container1 container2 subtypes appending run
 
 run:
 	./date_test
@@ -19,5 +20,6 @@ run:
 	./container1_test
 	./container2_test
 	./subtypes_test
+	./appending_test
 
 .PHONY: all run
