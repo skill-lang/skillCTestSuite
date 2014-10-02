@@ -36,7 +36,7 @@ char *write_read_instances () {
     // For the floats, check the precision
     create_basic ( state, 127, 32767, 2147483647, 9223372036854775807, -1, 1.000001, 1.0000000000000005, string3, true );
 
-    write ( state, "./resources/basic.sf" );
+    write_to_file ( state, "./resources/basic.sf" );
     delete_skill_state ( state );
     state = skill_state_from_file ( "./resources/basic.sf" );
 
