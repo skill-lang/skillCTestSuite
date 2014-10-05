@@ -120,9 +120,9 @@ char *read_example_instances () {
     GList *d_instances = get_d_instances ( state );
 
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 13 instances of type a.\n", g_list_length ( a_instances ) == 13 );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 7 instances of type b.\n", g_list_length ( b_instances ) == 7 );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type c.\n", g_list_length ( c_instances ) == 2 );
-    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type d.\n", g_list_length ( d_instances ) == 3 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 8 instances of type b.\n", g_list_length ( b_instances ) == 8 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 2 instance of type c.\n", g_list_length ( c_instances ) == 2 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 3 instance of type d.\n", g_list_length ( d_instances ) == 3 );
 
     g_list_free ( a_instances );
     g_list_free ( b_instances );
