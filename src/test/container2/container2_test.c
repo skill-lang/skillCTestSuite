@@ -4,7 +4,7 @@
 #include <glib.h>
 #include <stdbool.h>
 #include "../../minunit.h"
-#include "api/container2_api.h"
+#include "api.h"
 
 int tests_run = 0;
 

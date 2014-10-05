@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <stdbool.h>
 #include "../../minunit.h"
-#include "api/basicTypes_api.h"
+#include "api.h"
 
 int tests_run = 0;
 const float FLOAT_EPSILON = 0.000001;
