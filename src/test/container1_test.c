@@ -4,7 +4,7 @@
 #include <string.h>
 #include <glib.h>
 #include <stdbool.h>
-#include "../../minunit.h"
+#include "minunit.h"
 #include "api.h"
 
 int tests_run = 0;

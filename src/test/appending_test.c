@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <glib.h>
-#include "../../minunit.h"
+#include "minunit.h"
 #include "api.h"
 
 int tests_run = 0;
