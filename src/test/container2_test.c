@@ -8,6 +8,7 @@
 
 int tests_run = 0;
 
+// TODO correct this description
 /*
 This tests container types filled with user-defined types. The specification:
  *
@@ -158,8 +159,8 @@ char *write_read_instances () {
 }
 
 static char *all_tests () {
-     mu_run_test ( write_read_instances );
-     return 0;
+    mu_run_test ( write_read_instances );
+    return 0;
 }
 
 int main () {

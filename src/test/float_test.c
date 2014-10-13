@@ -38,8 +38,8 @@ char *read_write_float_instances () {
 }
 
 static char *all_tests () {
-     mu_run_test ( read_write_float_instances );
-     return 0;
+    mu_run_test ( read_write_float_instances );
+    return 0;
 }
 
 int main () {

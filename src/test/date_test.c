@@ -45,9 +45,9 @@ char *test_write_1000000_instances () {
 }
 
 static char *all_tests () {
-     mu_run_test ( test_read_date_instances );
-     mu_run_test ( test_write_1000000_instances );
-     return 0;
+    mu_run_test ( test_read_date_instances );
+    mu_run_test ( test_write_1000000_instances );
+    return 0;
 }
 
 int main () {

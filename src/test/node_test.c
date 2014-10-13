@@ -59,9 +59,9 @@ char *read_write_node_instances () {
 }
 
 static char *all_tests () {
-     mu_run_test ( read_node_instances );
-     mu_run_test ( read_write_node_instances );
-     return 0;
+    mu_run_test ( read_node_instances );
+    mu_run_test ( read_write_node_instances );
+    return 0;
 }
 
 int main () {

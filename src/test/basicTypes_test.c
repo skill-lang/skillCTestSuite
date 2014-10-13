@@ -81,8 +81,8 @@ char *write_read_instances () {
 }
 
 static char *all_tests () {
-     mu_run_test ( write_read_instances );
-     return 0;
+    mu_run_test ( write_read_instances );
+    return 0;
 }
 
 int main () {
