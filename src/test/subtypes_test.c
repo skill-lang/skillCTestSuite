@@ -133,9 +133,32 @@ char *read_example_instances () {
     return 0;
 }
 
+char *read_empty_example_instances () {
+    skill_state state = skill_state_from_file ( "./resources/empty_subtypes.sf" );
+
+    GList *a_instances = get_a_instances ( state );
+    GList *b_instances = get_b_instances ( state );
+    GList *c_instances = get_c_instances ( state );
+    GList *d_instances = get_d_instances ( state );
+
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 2 instances of type a.\n", g_list_length ( a_instances ) == 2 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instances of type b.\n", g_list_length ( b_instances ) == 1 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 0 instance of type c.\n", g_list_length ( c_instances ) == 0 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type d.\n", g_list_length ( d_instances ) == 1 );
+
+    g_list_free ( a_instances );
+    g_list_free ( b_instances );
+    g_list_free ( c_instances );
+    g_list_free ( d_instances );
+
+    delete_skill_state ( state );
+    return 0;
+}
+
 static char *all_tests () {
     mu_run_test ( read_write_instances );
     mu_run_test ( read_example_instances );
+    mu_run_test ( read_empty_example_instances );
     return 0;
 }
 
