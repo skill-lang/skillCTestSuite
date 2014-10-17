@@ -15,7 +15,7 @@ int tests_run = 0;
 // C : A { C c; }
 // D : B { D d; }
 // with one instance of each type, named with the lower case letter of that type.
-char *read_write_instances () {
+char *write_and_read_instances () {
 
     skill_state state = empty_skill_state ();
     a _a = create_a ( state, 0 );
@@ -112,6 +112,7 @@ char *read_write_instances () {
 }
 
 char *read_example_instances () {
+    // This reads instances spread over 3 blocks. (see localBasePoolStartIndex.sf.txt)
     skill_state state = skill_state_from_file ( "./resources/localBasePoolStartIndex.sf" );
 
     GList *a_instances = get_a_instances ( state );
@@ -133,8 +134,10 @@ char *read_example_instances () {
     return 0;
 }
 
-char *read_empty_example_instances () {
-    skill_state state = skill_state_from_file ( "./resources/empty_subtypes.sf" );
+char *read_instances_from_two_blocks () {
+    // This file contains an A-Instance in the first block, and a D-Instance in the second block.
+    // All references are set to self-references.
+    skill_state state = skill_state_from_file ( "./resources/inheritance_two_blocks.sf" );
 
     GList *a_instances = get_a_instances ( state );
     GList *b_instances = get_b_instances ( state );
@@ -146,6 +149,24 @@ char *read_empty_example_instances () {
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 0 instance of type c.\n", g_list_length ( c_instances ) == 0 );
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type d.\n", g_list_length ( d_instances ) == 1 );
 
+    GList *iterator;
+    skill_type t;
+    a _a;
+    for ( iterator = a_instances; iterator; iterator = iterator->next ) {
+        t = (skill_type) iterator->data;
+        if ( !instanceof_b ( t ) && !instanceof_d ( t ) && !instanceof_c ( t ) ) {
+            _a = (a) t;
+        }
+    }
+
+    d _d = (d) g_list_nth_data ( d_instances, 0 );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _a->a to point to _a.\n", a_get_a ( _a ) == _a );
+
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->a to point to _d.\n", d_get_a ( _d ) == (a) _d );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->bto point to _d.\n", d_get_b ( _d ) == (b) _d );
+    mu_assert ( "TEST FAILED: subtypes_test - Expected _d->d to point to _d.\n", d_get_d ( _d ) == _d );
+
+
     g_list_free ( a_instances );
     g_list_free ( b_instances );
     g_list_free ( c_instances );
@@ -156,9 +177,9 @@ char *read_empty_example_instances () {
 }
 
 static char *all_tests () {
-    mu_run_test ( read_write_instances );
+    mu_run_test ( write_and_read_instances );
     mu_run_test ( read_example_instances );
-    mu_run_test ( read_empty_example_instances );
+    mu_run_test ( read_instances_from_two_blocks );
     return 0;
 }
 
