@@ -111,14 +111,14 @@ char *create_delete_append () {
 
     a_set_a ( _a, _a );
 
-    b_set_a ( _b, _a );
+    b_set_a ( _b, (a) _b );
     b_set_b ( _b, _b );
 
-    c_set_a ( _c, _a );
+    c_set_a ( _c, (a) _c );
     c_set_c ( _c, _c );
 
-    d_set_a ( _d, _a );
-    d_set_b ( _d, _b );
+    d_set_a ( _d, (a) _d );
+    d_set_b ( _d, (b) _d );
     d_set_d ( _d, _d );
 
     delete_a ( _a );
@@ -133,19 +133,20 @@ char *create_delete_append () {
 
     a_set_a ( _a, _a );
 
-    b_set_a ( _b, _a );
+    b_set_a ( _b, (a) _b );
     b_set_b ( _b, _b );
 
-    c_set_a ( _c, _a );
+    c_set_a ( _c, (a) _c );
     c_set_c ( _c, _c );
 
-    d_set_a ( _d, _a );
-    d_set_b ( _d, _b );
+    d_set_a ( _d, (a) _d );
+    d_set_b ( _d, (b) _d );
     d_set_d ( _d, _d );
 
-    delete_d ( _d );
     delete_b ( _b );
     delete_c ( _c );
+    delete_d ( _d );
+
     append_to_file ( state );
     delete_skill_state ( state );
 
@@ -167,7 +168,7 @@ char *create_delete_append () {
     if ( instanceof_d ( (skill_type) _a ) ) {
         _a = (a) g_list_nth_data ( a_instances, 1 );
     }
-    mu_assert ( "TEST FAILED: appending_test - Expected _d->a to point to _a.\n", d_get_a ( _d ) == _a );
+    mu_assert ( "TEST FAILED: appending_test - Expected _d->a to point to _d.\n", d_get_a ( _d ) == (a) _d );
     mu_assert ( "TEST FAILED: appending_test - Expected _a->a to point to _a.\n", a_get_a ( _a ) == _a );
 
     g_list_free ( a_instances );
@@ -179,8 +180,8 @@ char *create_delete_append () {
 }
 
 static char *all_tests () {
-    mu_run_test ( write_append_read_instances );
     mu_run_test ( create_delete_append );
+    mu_run_test ( write_append_read_instances );
     return 0;
 }
 
