@@ -1,4 +1,4 @@
-SUBDIRS = date basicTypes float node container1 container2 subtypes appending
+SUBDIRS = date basicTypes float node container1 container2 subtypes appending annotation
 
 CC=gcc
 CFLAGS= -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include  -lglib-2.0 -lm -lpthread -lrt -fPIC -g -O0
@@ -18,6 +18,7 @@ run:
 	./container2_test
 	./subtypes_test
 	./appending_test
+	./annotation_test
 
 clean:
 	for dir in $(SUBDIRS); do \
