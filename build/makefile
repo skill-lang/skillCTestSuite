@@ -38,6 +38,6 @@ clean:
 		$(MAKE) -C../src/test/$$dir clean; \
 	done
 
-all: prefix_subdirs subdirs run
+all: subdirs prefix_subdirs run
 
 .PHONY: all run clean subdirs $(SUBDIRS) prefix_subdirs $(PREFIX_SUBDIRS)
