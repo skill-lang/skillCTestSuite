@@ -44,7 +44,9 @@ char *write_and_read_instances () {
     GList *b_instances = get_b_instances ( state );
     GList *c_instances = get_c_instances ( state );
     GList *d_instances = get_d_instances ( state );
+    GList *all_instances = get_all_instances ( state );
 
+    mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 4 instances total.\n", g_list_length ( all_instances ) == 4 );
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 4 instances of type a.\n", g_list_length ( a_instances ) == 4 );
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 2 instances of type b.\n", g_list_length ( b_instances ) == 2 );
     mu_assert ( "TEST FAILED: subtypes_test - Expected exactly 1 instance of type c.\n", g_list_length ( c_instances ) == 1 );
@@ -103,6 +105,7 @@ char *write_and_read_instances () {
 
     mu_assert ( "TEST FAILED: subtypes_test - Expected _d->d to point to _d.\n", d_get_d ( _d ) == _d );
 
+    g_list_free ( all_instances );
     g_list_free ( a_instances );
     g_list_free ( b_instances );
     g_list_free ( c_instances );

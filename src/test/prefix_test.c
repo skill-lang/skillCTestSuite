@@ -14,13 +14,14 @@ int tests_run = 0;
 char *write_append_read_instances () {
     date_skill_state state1 = date_empty_skill_state ();
     date_create_date ( state1, 1 );
-    date_write_to_file ( state1, "one_date_instance.sf" );
+    date_write_to_file ( state1, "dates_and_subtypes.sf" );
     date_delete_skill_state ( state1 );
 
-    sub_skill_state state2 = sub_skill_state_from_file ( "one_date_instance.sf" ); // should contain one unknown type
+    sub_skill_state state2 = sub_skill_state_from_file ( "dates_and_subtypes.sf" ); // should contain one unknown type
     GList *all_instances = sub_get_all_instances ( state2 );
 
-    // TODO check, that the list is empty
+    mu_assert ( "TEST FAILED: prefix_test - the subtype-binding should not return date instances.\n", g_list_length ( all_instances ) == 0 );
+    g_list_free ( all_instances );
 
     sub_a _a = sub_create_a ( state2, 0 );
     sub_b _b = sub_create_b ( state2, 0, 0 );
@@ -42,14 +43,20 @@ char *write_append_read_instances () {
     sub_append_to_file ( state2 );
     sub_delete_skill_state ( state2 );
 
-    state1 = date_skill_state_from_file ( "one_date_instance.sf" );
-    // The date-binding should only know the one date-instance
+    state1 = date_skill_state_from_file ( "dates_and_subtypes.sf" );
+    all_instances = date_get_all_instances ( state1 );
+    mu_assert ( "TEST FAILED: prefix_test - the date-binding should find exactly one date-instance here, no subtype-instances.\n", g_list_length ( all_instances ) == 1 );
+    g_list_free ( all_instances );
 
+    state2 = sub_skill_state_from_file ( "dates_and_subtypes.sf" );
+    all_instances = sub_get_all_instances ( state2 );
+    mu_assert ( "TEST FAILED: prefix_test - the subtype-binding should find 4 a-instances and no date-instance.\n", g_list_length ( all_instances ) == 4 );
 
-    state2 = sub_skill_state_from_file ( "one_date_instance.sf" );
-    // The sub-binding should know the for a, b, c, d - instances
+    GList *a_instances = sub_get_a_instances ( state2 );
+    mu_assert ( "TEST FAILED: prefix_test - the subtype-binding should find 4 a-instances and no date-instance.\n", g_list_length ( a_instances ) == 4 );
 
-    // TODO check instances
+    g_list_free ( all_instances );
+    g_list_free ( a_instances );
 
     date_delete_skill_state ( state1 );
     sub_delete_skill_state ( state2 );
