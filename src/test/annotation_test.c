@@ -57,6 +57,13 @@ char *write_append_read_instances () {
     return 0;
 }
 
+char *parse_test () {
+    skill_state state = skill_state_from_file ( "./resources/annotation.sf" );
+    delete_skill_state ( state );
+
+    return 0;
+}
+
 static char *all_tests () {
     mu_run_test ( write_append_read_instances );
     return 0;

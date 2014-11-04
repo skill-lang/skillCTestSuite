@@ -2,7 +2,7 @@ SUBDIRS = date basicTypes float node container1 container2 subtypes annotation
 PREFIX_SUBDIRS = date_prefix subtypes_prefix
 
 CC=gcc
-CFLAGS= -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include  -lglib-2.0 -lm -lpthread -lrt -fPIC -std=c99 -pedantic-errors
+CFLAGS= -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include  -lglib-2.0 -lm -lpthread -lrt -fPIC -std=c99 -pedantic-errors -finput-charset=utf-8
 
 subdirs: $(SUBDIRS)
 
