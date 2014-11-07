@@ -1,4 +1,4 @@
-SUBDIRS = date basicTypes empty float node container1 container2 subtypes annotation
+SUBDIRS = date basicTypes empty const float node container1 container2 subtypes annotation
 PREFIX_SUBDIRS = date_prefix subtypes_prefix
 
 CC=gcc
@@ -20,6 +20,7 @@ run:
 	./date_test
 	./basicTypes_test
 	./empty_test
+	./const_test
 	./float_test
 	./node_test
 	./container1_test
