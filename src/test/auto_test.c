@@ -13,16 +13,18 @@ char *write_read_instances () {
 
     skill_state state = empty_skill_state ();
 
-    create_constant ( state );
-    create_constant ( state );
+    create_autofield ( state, 3 );
 
-    write_to_file ( state, "./resources/const.sf" );
+    write_to_file ( state, "./resources/auto.sf" );
     delete_skill_state ( state );
-    state = skill_state_from_file ( "./resources/const.sf" );
+    state = skill_state_from_file ( "./resources/auto.sf" );
 
-    GList *instances = get_constant_instances ( state );
+    GList *instances = get_autofield_instances ( state );
 
-    mu_assert ( "TEST FAILED: const_test - there should be 2 instances.\n", g_list_length ( instances ) == 2 );
+    mu_assert ( "TEST FAILED: auto_test - there should be 1 instance.\n", g_list_length ( instances ) == 1 );
+    autofield instance = (autofield) g_list_nth_data ( instances, 0 );
+
+    mu_assert ( "TEST FAILED: auto_test - this field should be set to 0.\n", autofield_get_test ( instance ) == 0 );
 
     g_list_free ( instances );
     delete_skill_state ( state );
@@ -68,7 +70,7 @@ int main () {
         printf( "%s\n", result );
         return 1;
     } else {
-        printf ( "const_test: all tests passed.\n" );
+        printf ( "auto_test: all tests passed.\n" );
         return 0;
     }
 }
