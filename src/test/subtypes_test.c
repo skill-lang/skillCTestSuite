@@ -292,9 +292,9 @@ char *create_delete_append () {
     d_set_b ( _d, (b) _d );
     d_set_d ( _d, _d );
 
-    delete_a ( _a );
-    delete_b ( _b );
-    delete_c ( _c );
+    delete_instance ( (skill_type) _a );
+    delete_instance ( (skill_type) _b );
+    delete_instance ( (skill_type) _c );
 
     write_to_file ( state, "./resources/appending.sf" );
     _a = create_a ( state, 0 );
@@ -314,9 +314,9 @@ char *create_delete_append () {
     d_set_b ( _d, (b) _d );
     d_set_d ( _d, _d );
 
-    delete_b ( _b );
-    delete_c ( _c );
-    delete_d ( _d );
+    delete_instance ( (skill_type) _b );
+    delete_instance ( (skill_type) _c );
+    delete_instance ( (skill_type) _d );
 
     append_to_file ( state );
     append_to_file ( state );
