@@ -1,4 +1,4 @@
-SUBDIRS = date basicTypes empty const auto float node container1 container2 subtypes annotation
+SUBDIRS = date basic_types empty const auto float node container1 container_user_type container_annotation subtypes annotation
 PREFIX_SUBDIRS = date_prefix subtypes_prefix
 
 CC=gcc
@@ -18,14 +18,15 @@ $(PREFIX_SUBDIRS):
 
 run:
 	./date_test
-	./basicTypes_test
+	./basic_types_test
 	./empty_test
 	./const_test
 	./auto_test
 	./float_test
 	./node_test
 	./container1_test
-	./container2_test
+	./container_user_type_test
+	./container_annotation_test
 	./subtypes_test
 	./annotation_test
 	./prefix_test
