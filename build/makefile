@@ -35,13 +35,12 @@ run:
 clean:
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C../src/generated/$$dir clean; \
-		$(MAKE) -C../src/test/$$dir clean; \
 		rm -rf $${dir}_test; \
 	done
 	for dir in $(PREFIX_SUBDIRS); do \
 		$(MAKE) -C../src/generated/$$dir clean; \
-		$(MAKE) -C../src/test/$$dir clean; \
 	done
+	rm -rf prefix_test;
 
 all: subdirs prefix_subdirs run
 
