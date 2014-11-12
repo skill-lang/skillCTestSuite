@@ -181,7 +181,7 @@ int main () {
         printf( "%s\n", result );
         return 1;
     } else {
-        printf ( "container_test: all tests passed.\n" );
+        printf ( "container_annotation_test: all tests passed.\n" );
         return 0;
     }
 }

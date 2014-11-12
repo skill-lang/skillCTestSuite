@@ -1,4 +1,4 @@
-SUBDIRS = date basic_types empty const auto float node container1 container_user_type container_annotation subtypes annotation
+SUBDIRS = date basic_types empty const auto float node container1 container_user_type container_annotation container_string subtypes annotation
 PREFIX_SUBDIRS = date_prefix subtypes_prefix
 
 CC=gcc
@@ -27,6 +27,7 @@ run:
 	./container1_test
 	./container_user_type_test
 	./container_annotation_test
+	./container_string_test
 	./subtypes_test
 	./annotation_test
 	./prefix_test
