@@ -28,8 +28,10 @@ char *test_read_date_instances () {
 char *test_write_1000000_instances () {
     skill_state state = empty_skill_state ();
 
+	const int limit = 100000;
+
     int i;
-    for ( i = 0; i < 1000000; i++ ) {
+    for ( i = 0; i < limit; i++ ) {
         create_date ( state, i );
     }
     write_to_file ( state, "./resources/date_1000000_instances.sf" );
@@ -37,7 +39,42 @@ char *test_write_1000000_instances () {
     state = skill_state_from_file ( "./resources/date_1000000_instances.sf" );
 
     GList *instances = get_date_instances ( state );
-    mu_assert ( "TEST FAILED: date_test - write_1000000_instances: Expected exactly 1000000 date instances.\n", g_list_length ( instances ) == 1000000 );
+    mu_assert ( "TEST FAILED: date_test - write_1000000_instances: Expected exactly 1000000 date instances.\n", g_list_length ( instances ) == limit );
+
+    g_list_free ( instances );
+    delete_skill_state ( state );
+    return 0;
+}
+
+char *test_write_1000000_instances_and_delete_one () {
+    skill_state state = empty_skill_state ();
+
+	const int limit = 100;
+
+    int i;
+    for ( i = 0; i < limit; i++ ) {
+        create_date ( state, i );
+    }
+//    write_to_file ( state, "./resources/date_1000000_instances.sf" );
+
+//    state = skill_state_from_file ( "./resources/date_1000000_instances.sf" );
+
+    GList *instances = get_date_instances ( state );
+    mu_assert ( "TEST FAILED: date_test - write_1000000_instances: Expected exactly 1000000 date instances.\n", g_list_length ( instances ) == limit );
+
+    for(i = 0; i < limit/10; i++){
+		delete_instance((skill_type)(instances)->data);
+		instances = instances->next;
+    }
+
+    write_to_file ( state, "./resources/date_900000_instances.sf" );
+
+    state = skill_state_from_file ( "./resources/date_900000_instances.sf" );
+    GList *ds = get_date_instances ( state );
+    for(i = limit/10; i < limit; i++){
+      mu_assert ( "TEST FAILED: date_test - write_900000_instances: Unexpected value.\n", i == date_get_date((date)(instances)->data));
+instances = instances->next;
+    }
 
     g_list_free ( instances );
     delete_skill_state ( state );
@@ -75,6 +112,7 @@ static char *all_tests () {
     mu_run_test ( generic_parse_test );
     mu_run_test ( test_read_date_instances );
     mu_run_test ( test_write_1000000_instances );
+    mu_run_test ( test_write_1000000_instances_and_delete_one );
     return 0;
 }
 
